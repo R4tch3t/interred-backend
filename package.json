@@ -1,0 +1,12 @@
+{
+  "name": "interred-backend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "java": "^0.12.1",
+    "mysql": "^2.18.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.0"
+  }
+}
