@@ -24,17 +24,18 @@ const _clientes = (req,res) => {
         console.log(`Err on con: ${err}`);
         
       } else {
-        let subqueryB = ''
+        let subqueryB = 'WHERE v.idVelocidad=c.idVelocidad'
+        
         //var subqueryN = ''
         if (cliente !== '') {
           if (tipoB != undefined && tipoB === 0) {
-              subqueryB = `WHERE c.cliente=${cliente}`
+              subqueryB = `WHERE c.cliente='${cliente}' AND v.idVelocidad=c.idVelocidad`
           }
           if (tipoB != undefined && tipoB === 1) {
-            subqueryB = `WHERE c.telefono LIKE '%${telefono}%'`
+            subqueryB = `WHERE c.telefono LIKE '%${telefono}%' AND v.idVelocidad=c.idVelocidad`
           }
         }
-        let sql = `SELECT * FROM clientes c ${subqueryB} ORDER by c.idCliente ASC`
+        let sql = `SELECT * FROM clientes c, velocidad v ${subqueryB} ORDER by c.idCliente ASC`
         
         con.query(sql, (err, result, fields) => {
           
