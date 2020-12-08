@@ -6,6 +6,7 @@ const setResponse = (res, outJSON) => {
        // server.close();
        // server.listen(port, hostname);
 }
+
 const _clientes = (req,res) => {
 
     try{
@@ -24,28 +25,83 @@ const _clientes = (req,res) => {
         console.log(`Err on con: ${err}`);
         
       } else {
-        let subqueryB = 'WHERE v.idVelocidad=c.idVelocidad'
+        let subqueryB = ''
         
         //var subqueryN = ''
         if (cliente !== '') {
           if (tipoB != undefined && tipoB === 0) {
-              subqueryB = `WHERE c.cliente='${cliente}' AND v.idVelocidad=c.idVelocidad`
+              subqueryB = `WHERE c.cliente='${cliente}'`
           }
           if (tipoB != undefined && tipoB === 1) {
-            subqueryB = `WHERE c.telefono LIKE '%${telefono}%' AND v.idVelocidad=c.idVelocidad`
+            subqueryB = `WHERE c.telefono LIKE '%${telefono?telefono:''}%'`
           }
         }
-        let sql = `SELECT * FROM clientes c, velocidad v ${subqueryB} ORDER by c.idCliente ASC`
-        
-        con.query(sql, (err, result, fields) => {
+        let sql = `SELECT * FROM clientes c ${subqueryB} ORDER by c.idCliente ASC`
+        con.query(sql, async (err, result, fields) => {
+          //console.log(result)
           
           if (!err) {
             if (result.length > 0) {
-              
               outJSON.clientes = result
+              let c = 0
+              let l = result.length
+              console.log("c "+c)
+              result.forEach(async (e) => {
+                console.log(e.idCliente)
+              
+              //const q = () => {return new Promise((resolve,reject)=>{
+                sql = `SELECT * FROM recibos r, velocidad v WHERE r.idCliente=${e.idCliente} AND v.idVelocidad=r.idVelocidad ORDER by r.idRecibo DESC`
+               console.log(sql)
+                con.query(sql, (err, result, fields) => {
+                  //console.log(result)
+                  if(!err){
+                    if(result&&result.length>0){
+                      console.log(result[0])
+                      const currentDate = new Date(result[0].dateF)
+                      if(result[0].dateF<=currentDate){
+                        outJSON.clientes[e.idCliente-1].expiro=1
+                        result[0].dateI.setMonth(result[0].dateI.getMonth()+result[0].difDate)
+                        result[0].dateF.setMonth(result[0].dateF.getMonth()+result[0].difDate)
+                      }//else{
+                        outJSON.clientes[e.idCliente-1].ultimoRecibo=result[0]
+                        //const difDate = (result[0].dateF.getMonth()+1)-(currentDate.getMonth()+1)
+                        //outJSON.clientes[e.idCliente-1].difDate=difDate
+                      //}
+
+                      
+
+                      
+                    }
+                  }
+                  if(e.idCliente>=l){
+                      console.log(outJSON)  
+                        setResponse(res, outJSON);
+                      }
+                  console.log("yea")
+                  //resolve(1)
+                });
+
+              //});}
+             // await q();
+              c++
+              console.log("c "+c)
+              });
+              
+              //const q = await con.query(sql) 
+             // console.log(q)
+             /* q.forEach((val,key)=>{
+                console.log(val.RowDataPacket)
+                console.log(key)
+              })
+              let lastC = 0;
+              result.forEach((val,key)=>{
+                console.log(val)
+                console.log(key)
+              })
+              outJSON.clientes = result[0]
               
              
-             /* sql = `SELECT * FROM ubipredio${inJSON.tp} u `
+              sql = `SELECT * FROM ubipredio${inJSON.tp} u `
               sql += `WHERE u.CTA=${result[0].CTA} ORDER by u.CTA DESC`
               //console.log(sql)
               con.query(sql, (err, result, fields) => {
@@ -89,11 +145,12 @@ const _clientes = (req,res) => {
               });*/
             } else {
               outJSON.error.name = 'error01'
+              setResponse(res, outJSON);
             }
           } else {
-
+            setResponse(res, outJSON);
           }
-          setResponse(res, outJSON);
+          
          // padronR(subqueryB)
         });
 
