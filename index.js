@@ -6,6 +6,7 @@ const path = require('path');
 //const cors = require('cors');
 const clientes = require('./allClientes');
 const genRecibo = require('./methods');
+const delRecibo = require('./methods');
 let app = express();
 let options = null
 try {
@@ -96,6 +97,25 @@ app.all('/clientes/genRecibo', (req, res) => {
             setResponseHeadersJSON(res);
 
             genRecibo(req,res);
+       // })
+        //res.send(filename)
+
+    } catch (e) {
+        console.log(e)
+    }
+});
+
+app.all('/clientes/delRecibo', (req, res) => {
+    try {
+
+        console.log('del3')
+        console.log(req.body)
+        //console.log(res)
+        //let filename = ["Acceso.js"]
+       //import('./comprobarU.js').then(({comprobarU})=>{
+            setResponseHeadersJSON(res);
+
+            delRecibo(req,res);
        // })
         //res.send(filename)
 
