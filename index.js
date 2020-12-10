@@ -5,8 +5,8 @@ const PORT = 2000;
 const path = require('path');
 //const cors = require('cors');
 const clientes = require('./allClientes');
-const genRecibo = require('./methods');
-const delRecibo = require('./methods');
+const {genRecibo,delRecibo} = require('./methods');
+//const delRecibo = require('./methods');
 let app = express();
 let options = null
 try {
