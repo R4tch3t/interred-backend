@@ -57,11 +57,13 @@ const _clientes = (req,res) => {
                   if(!err){
                     if(result&&result.length>0){
                       console.log(result[0])
-                      const currentDate = new Date(result[0].dateF)
+                      const currentDate = new Date(/*result[0].dateF*/)
                       if(result[0].dateF<=currentDate){
                         outJSON.clientes[e.idCliente-1].expiro=1
                         result[0].dateI.setMonth(result[0].dateI.getMonth()+result[0].difDate)
                         result[0].dateF.setMonth(result[0].dateF.getMonth()+result[0].difDate)
+                      }else{
+                        outJSON.clientes[e.idCliente-1].expiro=0
                       }//else{
                         outJSON.clientes[e.idCliente-1].ultimoRecibo=result[0]
                         //const difDate = (result[0].dateF.getMonth()+1)-(currentDate.getMonth()+1)

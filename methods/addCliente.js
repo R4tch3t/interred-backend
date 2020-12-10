@@ -7,10 +7,10 @@ const setResponse = (res, outJSON) => {
        // server.close();
        // server.listen(port, hostname);
 }
-const _delRecibo = (req,res) => {
+const _addCliente = (req,res) => {
 
     try{
-    const {idRecibo,idCliente} = req.body
+    const {nombre,telefono,ubi} = req.body
     let outJSON = {}
     let con = mysql.createConnection({
                         host: "localhost",
@@ -26,21 +26,13 @@ const _delRecibo = (req,res) => {
         
       } else {
         
-        let sql = `DELETE FROM recibos WHERE idRecibo=${idRecibo}`
-        
+        let sql = `INSERT INTO clientes(nombre, telefono, ubi) VALUES ('${nombre}','${telefono}','${ubi}')`
+        console.log(sql)
         con.query(sql, (err, result, fields) => {
           
           if (!err) {
-            sql = `SELECT * FROM recibos WHERE idCliente=${idCliente}`
-            outJSON.clientes = result
-            con.query(sql, (err, result, fields) => {
-              if(result.length>0){
-                outJSON.adeuda = 1
-              }else{
-                outJSON.adeuda = 0
-              }
-              setResponse(res, outJSON);
-        });
+            outJSON.cliente = result
+            outJSON.exito = 1
              /* sql = `SELECT * FROM ubipredio${inJSON.tp} u `
               sql += `WHERE u.CTA=${result[0].CTA} ORDER by u.CTA DESC`
               //console.log(sql)
@@ -85,9 +77,9 @@ const _delRecibo = (req,res) => {
               });*/
           } else {
                 outJSON.error.name = 'error01'  
-                setResponse(res, outJSON);
+                
           }
-          
+          setResponse(res, outJSON);
          // padronR(subqueryB)
         });
 
@@ -100,13 +92,13 @@ const _delRecibo = (req,res) => {
 
  }
 
- const delRecibo = (req, res) => {
+ const addCliente = (req, res) => {
         try {
-            const {idRecibo} = req.body
-            console.log(idRecibo)
-                   if (idRecibo) {
+            const {nombre} = req.body
+            console.log(nombre)
+                   if (nombre) {
 
-                        _delRecibo(req, res)
+                        _addCliente(req, res)
 
                     } else {
                         res.end()
@@ -118,4 +110,4 @@ const _delRecibo = (req,res) => {
 
     }
  
-module.exports=delRecibo
+module.exports=addCliente

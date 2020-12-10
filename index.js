@@ -5,7 +5,7 @@ const PORT = 2000;
 const path = require('path');
 //const cors = require('cors');
 const clientes = require('./allClientes');
-const {genRecibo,delRecibo} = require('./methods');
+const {genRecibo,delRecibo, addCliente} = require('./methods');
 //const delRecibo = require('./methods');
 let app = express();
 let options = null
@@ -116,6 +116,25 @@ app.all('/clientes/delRecibo', (req, res) => {
             setResponseHeadersJSON(res);
 
             delRecibo(req,res);
+       // })
+        //res.send(filename)
+
+    } catch (e) {
+        console.log(e)
+    }
+});
+
+app.all('/clientes/addCliente', (req, res) => {
+    try {
+
+        console.log('add3')
+        console.log(req.body)
+        //console.log(res)
+        //let filename = ["Acceso.js"]
+       //import('./comprobarU.js').then(({comprobarU})=>{
+            setResponseHeadersJSON(res);
+
+            addCliente(req,res);
        // })
         //res.send(filename)
 

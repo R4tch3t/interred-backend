@@ -1,4 +1,5 @@
 const genRecibo = require("./genRecibo");
 const delRecibo = require("./delRecibo");
-module.exports = {genRecibo,delRecibo} 
+const addCliente = require("./delRecibo");
+module.exports = {genRecibo,delRecibo,addCliente} 
 //module.exports = delRecibo 
