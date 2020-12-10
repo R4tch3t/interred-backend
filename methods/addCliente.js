@@ -26,7 +26,7 @@ const _addCliente = (req,res) => {
         
       } else {
         
-        let sql = `INSERT INTO clientes(nombre, telefono, ubi) VALUES ('${nombre}','${telefono}','${ubi}')`
+        let sql = `INSERT INTO clientes(cliente, telefono, ubi) VALUES ('${nombre}','${telefono}','${ubi}')`
         console.log(sql)
         con.query(sql, (err, result, fields) => {
           
