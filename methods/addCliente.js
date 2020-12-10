@@ -96,6 +96,7 @@ const _addCliente = (req,res) => {
         try {
             const {nombre} = req.body
             console.log(nombre)
+            console.log(req.body)
                    if (nombre) {
 
                         _addCliente(req, res)
