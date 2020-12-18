@@ -1,7 +1,11 @@
 const mysql = require("mysql")
 const setResponse = (res, outJSON) => {
      //   outJSON = JSON.stringify(outJSON);
+     try{
         res.send(outJSON);
+     }catch(e){
+       console.log(e)
+     }
        // con.destroy();
        // server.close();
        // server.listen(port, hostname);
@@ -30,10 +34,10 @@ const _clientes = (req,res) => {
         //var subqueryN = ''
         if (cliente !== '') {
           if (tipoB != undefined && tipoB === 0) {
-              subqueryB = `WHERE c.cliente='${cliente}'`
+            subqueryB = `WHERE c.idCliente=${cliente}`
           }
           if (tipoB != undefined && tipoB === 1) {
-            subqueryB = `WHERE c.telefono LIKE '%${telefono?telefono:''}%'`
+              subqueryB = `WHERE c.cliente LIKE '%${cliente}%'`
           }
         }
         let sql = `SELECT * FROM clientes c ${subqueryB} ORDER by c.idCliente ASC`
@@ -168,13 +172,14 @@ const _clientes = (req,res) => {
  const clientes = (req, res) => {
         try {
             const {cliente} = req.body
-                   if (cliente||cliente==="") {
+            _clientes(req, res)
+                   /*if (cliente||cliente==="") {
 
                         _clientes(req, res)
 
                     } else {
                         res.end()
-                    }
+                    }*/
             
         } catch (e) {
             console.log(e)
