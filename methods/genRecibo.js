@@ -1,9 +1,17 @@
 const mysql = require("mysql")
-const setResponse = (res, outJSON) => {
+const setResponse = (res, outJSON, con) => {
      //   outJSON = JSON.stringify(outJSON);
-     
+     try{
+       con.destroy();
+     }catch(e){
+       
+     }
+     try{
         res.send(outJSON);
-       // con.destroy();
+     }catch(e){
+       console.log(e)
+     }
+     
        // server.close();
        // server.listen(port, hostname);
 }
@@ -79,7 +87,7 @@ const _genRecibo = (req,res) => {
           } else {
                 outJSON.error.name = 'error01'  
           }
-          setResponse(res, outJSON);
+          setResponse(res, outJSON, con);
          // padronR(subqueryB)
         });
 

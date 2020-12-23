@@ -1,12 +1,17 @@
 const mysql = require("mysql")
-const setResponse = (res, outJSON) => {
+const setResponse = (res, outJSON, con) => {
      //   outJSON = JSON.stringify(outJSON);
+     try{
+       con.destroy();
+     }catch(e){
+       console.log(e)
+     }
      try{
         res.send(outJSON);
      }catch(e){
        console.log(e)
      }
-       // con.destroy();
+     
        // server.close();
        // server.listen(port, hostname);
 }
@@ -50,26 +55,29 @@ const _clientes = (req,res) => {
               let c = 0
               let l = result.length
               console.log("c "+c)
-              result.forEach(async (e) => {
+              result.forEach((e) => {
                 console.log(e.idCliente)
-              
+              //const cc = c
               //const q = () => {return new Promise((resolve,reject)=>{
                 sql = `SELECT * FROM recibos r, velocidad v WHERE r.idCliente=${e.idCliente} AND v.idVelocidad=r.idVelocidad ORDER by r.idRecibo DESC`
                console.log(sql)
+              
                 con.query(sql, (err, result, fields) => {
+                  const cc = c;
+                  console.log(`cc: ${cc}`)
                   //console.log(result)
                   if(!err){
                     if(result&&result.length>0){
                       console.log(result[0])
                       const currentDate = new Date(/*result[0].dateF*/)
                       if(result[0].dateF<=currentDate){
-                        outJSON.clientes[e.idCliente-1].expiro=1
+                        outJSON.clientes[cc].expiro=1
                         result[0].dateI.setMonth(result[0].dateI.getMonth()+result[0].difDate)
                         result[0].dateF.setMonth(result[0].dateF.getMonth()+result[0].difDate)
                       }else{
-                        outJSON.clientes[e.idCliente-1].expiro=0
+                        outJSON.clientes[cc].expiro=0
                       }//else{
-                        outJSON.clientes[e.idCliente-1].ultimoRecibo=result[0]
+                        outJSON.clientes[cc].ultimoRecibo=result[0]
                         //const difDate = (result[0].dateF.getMonth()+1)-(currentDate.getMonth()+1)
                         //outJSON.clientes[e.idCliente-1].difDate=difDate
                       //}
@@ -79,17 +87,19 @@ const _clientes = (req,res) => {
                       
                     }
                   }
-                  if(e.idCliente>=l){
+                  c++;
+                  if(c===l){
                       console.log(outJSON)  
-                        setResponse(res, outJSON);
-                      }
+                        setResponse(res, outJSON,con);
+                  }
+                 // c++;
                   console.log("yea")
                   //resolve(1)
                 });
 
               //});}
              // await q();
-              c++
+           //   c++
               console.log("c "+c)
               });
               
@@ -151,10 +161,10 @@ const _clientes = (req,res) => {
               });*/
             } else {
               outJSON.error.name = 'error01'
-              setResponse(res, outJSON);
+              setResponse(res, outJSON, con);
             }
           } else {
-            setResponse(res, outJSON);
+            setResponse(res, outJSON, con);
           }
           
          // padronR(subqueryB)

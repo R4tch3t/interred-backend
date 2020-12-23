@@ -1,9 +1,17 @@
 const mysql = require("mysql")
-const setResponse = (res, outJSON) => {
+const setResponse = (res, outJSON, con) => {
      //   outJSON = JSON.stringify(outJSON);
-     
+     try{
+       con.destroy();
+     }catch(e){
+       
+     }
+     try{
         res.send(outJSON);
-       // con.destroy();
+     }catch(e){
+       console.log(e)
+     }
+     
        // server.close();
        // server.listen(port, hostname);
 }
@@ -60,7 +68,7 @@ const _deleteCliente = (req,res) => {
                     
                     if(cc===idClientes.length){
                         outJSON.exito = 1
-                        setResponse(res, outJSON);
+                        setResponse(res, outJSON, con);
                     }
                     // padronR(subqueryB)
                     });
@@ -77,7 +85,7 @@ const _deleteCliente = (req,res) => {
             });
         }else{
             outJSON.exito = 1
-            setResponse(res, outJSON);
+            setResponse(res, outJSON, con);
         }
        // }
         
