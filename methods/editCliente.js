@@ -15,10 +15,10 @@ const setResponse = (res, outJSON, con) => {
        // server.close();
        // server.listen(port, hostname);
 }
-const _addCliente = (req,res) => {
+const _editCliente = (req,res) => {
 
     try{
-    const {nombre,telefono,ubi,idVelocidad, monto, difDate, fechaSI, fechaSF, fechaPago} = req.body
+    const {idCliente,idRecibo,nombre,telefono,ubi,idVelocidad, monto, difDate, fechaSI, fechaSF, fechaPago} = req.body
     let outJSON = {}
     let con = mysql.createConnection({
                         host: "localhost",
@@ -34,14 +34,15 @@ const _addCliente = (req,res) => {
         
       } else {
         
-        let sql = `INSERT INTO clientes(cliente, telefono, ubi) VALUES ('${nombre}','${telefono}','${ubi}')`
+        let sql = `UPDATE clientes SET cliente='${nombre}',telefono='${telefono}',ubi='${ubi}' WHERE idCliente=${idCliente}`
         console.log(sql)
         con.query(sql, (err, result, fields) => {
           console.log(result)
           console.log(result.insertId)
           if (!err && result) {
             outJSON.cliente = result                
-            sql = `INSERT INTO recibos (idCliente, fechaPago, monto, idVelocidad, dateI, dateF, difDate) VALUES ('${result.insertId}', '${fechaPago}', '${monto}', '${idVelocidad}', '${fechaSI}', '${fechaSF}', '${difDate}')`
+            sql = `UPDATE recibos SET fechaPago='${fechaPago}',monto='${monto}',idVelocidad='${idVelocidad}',dateI='${fechaSI}',dateF='${fechaSF}',difDate='${difDate}' `
+            sql += `WHERE idRecibo=${idRecibo}`
             con.query(sql, (err, result, fields) => {
               console.log(result)
               if (!err) {
@@ -68,14 +69,14 @@ const _addCliente = (req,res) => {
 
  }
 
- const addCliente = (req, res) => {
+ const editCliente = (req, res) => {
         try {
             const {nombre} = req.body
             console.log(nombre)
             console.log(req.body)
                    if (nombre) {
 
-                        _addCliente(req, res)
+                        _editCliente(req, res)
 
                     } else {
                         res.end()
@@ -87,4 +88,4 @@ const _addCliente = (req,res) => {
 
     }
  
-module.exports=addCliente
+module.exports=editCliente
