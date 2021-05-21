@@ -32,7 +32,7 @@ const _clientes = (req,res) => {
       outJSON.error = {};
       if (err) {
         console.log(`Err on con: ${err}`);
-        
+          
       } else {
         let subqueryB = ''
         
