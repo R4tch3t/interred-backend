@@ -54,18 +54,18 @@ const _clientes = (req,res) => {
                 outJSON.clientes = result
                 let c = 0
                 let l = result.length
-                console.log("c "+c)
+                //console.log("c "+c)
                 result.forEach((e) => {
-                  console.log(e.idCliente) 
+                  //console.log(e.idCliente) 
                 //const cc = c
                 //const q = () => {return new Promise((resolve,reject)=>{
-                  sql = `SELECT * FROM recibos r, velocidad v WHERE r.idCliente=${e.idCliente} AND v.idVelocidad=r.idVelocidad ORDER by r.idRecibo DESC`
-                console.log(sql)
+                  sql = `SELECT * FROM recibos r WHERE r.idCliente=${e.idCliente} ORDER by r.idRecibo DESC`
+                //console.log(sql)
                 
                   con.query(sql, (err, result, fields) => {
                     const cc = c;
-                    console.log(`cc: ${cc}`)
-                    //console.log(result)
+                   // console.log(`cc: ${cc}`)
+                   // console.log(result)
                     if(!err){
                       if(result&&result.length>0){
                         console.log(result[0])
@@ -83,8 +83,6 @@ const _clientes = (req,res) => {
                         //}
 
                         
-
-                        
                       }
                     }
                     c++;
@@ -93,7 +91,7 @@ const _clientes = (req,res) => {
                           setResponse(res, outJSON,con);
                     }
                   // c++;
-                    console.log("yea")
+                   // console.log("yea")
                     //resolve(1)
                   });
 

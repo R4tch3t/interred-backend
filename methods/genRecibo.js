@@ -18,7 +18,7 @@ const setResponse = (res, outJSON, con) => {
 const _genRecibo = (req,res) => {
 
     try{
-    const {cliente, idCliente, fechaPago, monto, idVelocidad, dateI, dateF, difDate} = req.body
+    const {cliente, idCliente, fechaPago, monto, velocidad, television, dateI, dateF, difDate} = req.body
     let outJSON = {}
     let con = mysql.createConnection({
                         host: "localhost",
@@ -34,7 +34,7 @@ const _genRecibo = (req,res) => {
         
       } else {
         
-        let sql = `INSERT INTO recibos (idCliente, fechaPago, monto, idVelocidad, dateI, dateF, difDate) VALUES ('${idCliente}', '${fechaPago}', '${monto}', '${idVelocidad}', '${dateI}', '${dateF}', '${difDate}')`
+        let sql = `INSERT INTO recibos (idCliente, fechaPago, monto, velocidad, television, dateI, dateF, difDate) VALUES ('${idCliente}', '${fechaPago}', '${monto}', '${velocidad}','${television}', '${dateI}', '${dateF}', '${difDate}')`
         
         con.query(sql, (err, result, fields) => {
           
