@@ -15,6 +15,7 @@ const setResponse = (res, outJSON, con) => {
        // server.close();
        // server.listen(port, hostname);
 }
+
 const _genRecibo = (req,res) => {
 
     try{
@@ -100,23 +101,21 @@ const _genRecibo = (req,res) => {
 
  }
 
- const genRecibo = (req, res) => {
-        try {
-            const {idCliente} = req.body
-            console.log(idCliente)
-                   if (idCliente) {
+const genRecibo = (req, res) => {
+try {
+    const {idCliente} = req.body
+    //console.log(idCliente)
+    if (idCliente) {
 
-                        _genRecibo(req, res)
+        _genRecibo(req, res)
 
-                    } else {
-                        res.end()
-                    }
-            
-        } catch (e) {
-            console.log(e)
-        }
-
-    }
+    } else {
+        res.end()
+    }    
+} catch (e) {
+    console.log(e)
+}
+}
  
 module.exports=genRecibo
   

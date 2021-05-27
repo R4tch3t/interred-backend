@@ -18,7 +18,7 @@ const setResponse = (res, outJSON, con) => {
 const _editCliente = (req,res) => {
 
     try{
-    const {idCliente,idRecibo,nombre,telefono,ubi,velocidad,television, monto, difDate, fechaSI, fechaSF, fechaPago} = req.body
+    let {idCliente,idRecibo,nombre,telefono,ubi,velocidad,television, monto, difDate, fechaSI, fechaSF, fechaPago} = req.body
     let outJSON = {}
     let con = mysql.createConnection({
                         host: "localhost",
@@ -37,12 +37,19 @@ const _editCliente = (req,res) => {
         let sql = `UPDATE clientes SET cliente='${nombre}',telefono='${telefono}',ubi='${ubi}' WHERE idCliente=${idCliente}`
         console.log(sql)
         con.query(sql, (err, result, fields) => {
-          console.log(result)
-          console.log(result.insertId)
+         // console.log(result)
+          //console.log(result.insertId)
           if (!err && result) {
-            outJSON.cliente = result                
+            outJSON.cliente = result    
+            console.log(fechaSI);
+            console.log(fechaSF);
+            fechaPago=new Date(fechaPago).toLocaleString();
+            fechaSI=new Date(fechaSI).toLocaleString();
+            fechaSF=new Date(fechaSF).toLocaleString();
+
             sql = `UPDATE recibos SET fechaPago='${fechaPago}',monto='${monto}',velocidad='${velocidad}',television='${television}',dateI='${fechaSI}',dateF='${fechaSF}',difDate='${difDate}' `
             sql += `WHERE idRecibo=${idRecibo}`
+            console.log(sql)
             con.query(sql, (err, result, fields) => {
               console.log(result)
               if (!err) {
