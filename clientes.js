@@ -12,6 +12,7 @@ const server = http.createServer((req, res) => {
   });
   let inJSON = '';
   let outJSON = {};
+  
   outJSON.error = {};
   let con = mysql.createConnection({
         host: "localhost",

@@ -37,13 +37,11 @@ const _addCliente = (req,res) => {
         let sql = `INSERT INTO clientes(cliente, telefono, ubi) VALUES ('${nombre}','${telefono}','${ubi}')`
         console.log(sql)
         con.query(sql, (err, result, fields) => {
-          console.log(result)
-          console.log(result.insertId)
+          
           if (!err && result) {
             outJSON.cliente = result                
             sql = `INSERT INTO recibos (idCliente, fechaPago, monto, velocidad, television, dateI, dateF, difDate) VALUES ('${result.insertId}', '${fechaPago}', '${monto}', '${velocidad}', '${television}', '${fechaSI}', '${fechaSF}', '${difDate}')`
             con.query(sql, (err, result, fields) => {
-              console.log(result)
               if (!err) {
                 outJSON.exito = 1
                 setResponse(res, outJSON, con);
@@ -71,8 +69,7 @@ const _addCliente = (req,res) => {
  const addCliente = (req, res) => {
         try {
             const {nombre} = req.body
-            console.log(nombre)
-            console.log(req.body)
+            
                    if (nombre) {
 
                         _addCliente(req, res)

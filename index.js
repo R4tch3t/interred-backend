@@ -7,6 +7,7 @@ const path = require('path');
 const clientes = require('./allClientes');
 const {genRecibo, delRecibo, addCliente, deleteCliente, editCliente} = require('./methods');
 //const delRecibo = require('./methods');
+
 let app = express();
 let options = null
 try {
@@ -37,7 +38,7 @@ https.createServer(options, app).listen(PORT, ()=> {
 });
 app.get('/expediente/:tp/:CTA/:escritura', function(req, res){
     try {
-        console.log('app.get1')
+        
         var filename = "/var/expedientes/" + req.params.tp + "/" + req.params.CTA
         filename += "/" + req.params.escritura
             //filename = path.join(__dirname, filename)
@@ -70,8 +71,6 @@ app.get('/expediente/:tp/:CTA/:escritura', function(req, res){
 app.all('/clientes/get', (req, res) => {
     try {
 
-        console.log('app.get2')
-        console.log(req.body)
         //console.log(res)
         //let filename = ["Acceso.js"]
        //import('./comprobarU.js').then(({comprobarU})=>{
@@ -89,8 +88,7 @@ app.all('/clientes/get', (req, res) => {
 app.all('/clientes/genRecibo', (req, res) => {
     try {
 
-        console.log('app.get3')
-        console.log(req.body)
+        
         //console.log(res)
         //let filename = ["Acceso.js"]
        //import('./comprobarU.js').then(({comprobarU})=>{
@@ -108,8 +106,6 @@ app.all('/clientes/genRecibo', (req, res) => {
 app.all('/clientes/delRecibo', (req, res) => {
     try {
 
-        console.log('del3')
-        console.log(req.body)
         //console.log(res)
         //let filename = ["Acceso.js"]
        //import('./comprobarU.js').then(({comprobarU})=>{
@@ -127,8 +123,6 @@ app.all('/clientes/delRecibo', (req, res) => {
 app.all('/clientes/addCliente', (req, res) => {
     try {
 
-        console.log('add3')
-        console.log(req.body)
         //console.log(res)
         //let filename = ["Acceso.js"]
        //import('./comprobarU.js').then(({comprobarU})=>{
@@ -146,8 +140,6 @@ app.all('/clientes/addCliente', (req, res) => {
 app.all('/clientes/editCliente', (req, res) => {
     try {
 
-        console.log('add3')
-        console.log(req.body)
         //console.log(res)
         //let filename = ["Acceso.js"]
        //import('./comprobarU.js').then(({comprobarU})=>{
@@ -165,8 +157,6 @@ app.all('/clientes/editCliente', (req, res) => {
 app.all('/clientes/deleteCliente', (req, res) => {
     try {
 
-        console.log('add3')
-        console.log(req.body)
         //console.log(res)
         //let filename = ["Acceso.js"]
        //import('./comprobarU.js').then(({comprobarU})=>{

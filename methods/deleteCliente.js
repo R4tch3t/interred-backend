@@ -47,12 +47,12 @@ const _deleteCliente = (req,res) => {
                     bandDel=true;
                     const idCliente=element[0];
                     sql = `DELETE FROM clientes WHERE idCliente=${idCliente}`
-                    console.log(sql);
+                    
                     con.query(sql, (err, result, fields) => {
                     
                     
                     sql = `DELETE FROM recibos WHERE idCliente=${idCliente}`
-                    console.log(sql);
+                    
                     con.query(sql, (err, result, fields) => {
                     c++;
                     const cc = c
@@ -100,7 +100,7 @@ const _deleteCliente = (req,res) => {
  const deleteCliente = (req, res) => {
         try {
             const {idClientes} = req.body
-            console.log(idClientes)
+            
                    if (idClientes) {
 
                         _deleteCliente(req, res)

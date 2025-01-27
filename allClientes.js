@@ -68,12 +68,14 @@ const _clientes = (req,res) => {
                    // console.log(result)
                     if(!err){
                       if(result&&result.length>0){
-                        console.log(result[0])
+                        
                         const currentDate = new Date(/*result[0].dateF*/)
                         if(result[0].dateF<=currentDate){
                           outJSON.clientes[cc].expiro=1
-                          result[0].dateI.setMonth(result[0].dateI.getMonth()+result[0].difDate)
-                          result[0].dateF.setMonth(result[0].dateF.getMonth()+result[0].difDate)
+                          if(result[0].dateI.getMonth){
+                            result[0].dateI.setMonth(result[0].dateI.getMonth()+result[0].difDate)
+                            result[0].dateF.setMonth(result[0].dateF.getMonth()+result[0].difDate)
+                          }
                         }else{
                           outJSON.clientes[cc].expiro=0
                         }//else{
@@ -87,7 +89,7 @@ const _clientes = (req,res) => {
                     }
                     c++;
                     if(c===l){
-                        console.log(outJSON)  
+                        
                           setResponse(res, outJSON,con);
                     }
                   // c++;
@@ -98,7 +100,6 @@ const _clientes = (req,res) => {
                 //});}
               // await q();
             //   c++
-                console.log("c "+c)
                 });
                 
                 //const q = await con.query(sql) 

@@ -111,7 +111,7 @@ const _delRecibo = (req,res) => {
  const delRecibo = (req, res) => {
         try {
             const {idRecibo} = req.body
-            console.log(idRecibo)
+           
                    if (idRecibo) {
 
                         _delRecibo(req, res)
